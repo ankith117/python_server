@@ -4,10 +4,11 @@
 import socket
 import logging
 
-zero = 0        # Global Variable for zero
-limit = 16      # Data limit
+zero = 0        # Global Variable for zero.
+limit = 16      # Data limit.
 
 logging.basicConfig(filename='client.log', level=logging.INFO)
+
 
 class Client:
     """Client class defines the instances and methods required for:
@@ -25,26 +26,17 @@ class Client:
 
         self.ip = ip
         self.port = port
-        self.client_socket = None
-        self.message = None
-
-    def create_socket(self):
-        """create_socket method creates a socket object and the connects the socket to defined address."""
-
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         address = (self.ip, self.port)
         self.client_socket.connect(address)
 
     def send(self, message):
         """send method takes in the message and sends the message on the created socket."""
-        self.message = message
-        logging.info('sending %s' % self.message)
+        message = message
+        logging.info('sending %s' % message)
         self.client_socket.sendall(message)
-
-    def receive(self):
-        """receive method monitors received, expected data and echos it."""
         data_received = zero
-        data_expected = len(self.message)
+        data_expected = len(message)
         while data_received < data_expected:
             data = self.client_socket.recv(limit)
             data_expected += len(data)
@@ -54,5 +46,3 @@ class Client:
         """close method closes the created socket resulting end of transmission."""
         logging.info('Closing Transmission!')
         self.client_socket.close()
-
-
